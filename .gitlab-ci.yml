@@ -1,0 +1,28 @@
+image: python:3.10
+
+before_script:
+  - pip install poetry
+  - cd ..
+  # See: https://stackoverflow.com/questions/53391229/clone-another-gitlab-repository-in-gitlab-ci-script
+  - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@git.imp.fu-berlin.de/swp-algorithmen-22/datenstruktur.git || ( cd datenstruktur && git remote set-url origin https://gitlab-ci-token:${CI_JOB_TOKEN}@git.imp.fu-berlin.de/swp-algorithmen-22/datenstruktur.git && git fetch && git reset --hard origin/main )
+  - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@git.imp.fu-berlin.de/swp-algorithmen-22/algorithmus.git || ( cd algorithmus && git remote set-url origin https://gitlab-ci-token:${CI_JOB_TOKEN}@git.imp.fu-berlin.de/swp-algorithmen-22/algorithmus.git && git fetch && git reset --hard origin/main )
+  - cd matching
+  - poetry install
+  - source `poetry env info --path`/bin/activate
+
+stages:
+  - build
+  - test
+
+build:
+  stage: build
+  script:
+    - echo "Installing dependencies"
+    - poetry build
+    - which poetry
+
+test:
+  stage: test
+  needs: [build]
+  script:
+    - echo "Testing"

@@ -1,0 +1,35 @@
+repos:
+  - repo: local
+    hooks:
+      - id: black # an id must be given
+        name: black - the uncompromising code formatter # the output shown during execution of pre-commit
+        entry: poetry run black # the actual command to execute
+        language: system # execute as a normal program
+        types: [python] # execute only for python files
+      - id: isort
+        name: isort - isort your imports, so you don't have to
+        entry: poetry run isort
+        language: system
+        types: [python]
+#      - id: pytest
+#        name: pytest - helps you write better programs
+#        entry: poetry run pytest
+#        language: system
+#        pass_filenames: false # normally the tool is called with the relevant files; this wouldn't work for pytest
+#        always_run: true # Always execute to test before every push
+#        stages: [push] # Only execute when `git push` is executed, not on every `git commit`
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.2.0
+    hooks:
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-toml
+      - id: check-yaml
+      - id: debug-statements
+      - id: destroyed-symlinks
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: fix-byte-order-marker
+      - id: mixed-line-ending
+      - id: trailing-whitespace
